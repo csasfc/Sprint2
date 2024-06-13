@@ -3,13 +3,13 @@ let filtroDePesquisa = 'nome' // Para saber o filtro de pesquisa
 
 // Adicionando o JSON ao localStorage quando a página iniciar
 document.addEventListener('DOMContentLoaded', () => {
-  const dadosDoLocalStorage = localStorage.getItem('dadosEmbarcacoes')
+  const dadosDoLocalStorage = localStorage.getItem('dadosPalestras')
 
   // Caso não exista, criar um
   if (dadosDoLocalStorage === null) {
-    localStorage.setItem('dadosEmbarcacoes', JSON.stringify({
+    localStorage.setItem('dadosPalestras', JSON.stringify({
       idGlobal: 0,
-      embarcacoes: [],
+      palestras: [],
     }))
   }
 })
@@ -76,20 +76,20 @@ document.getElementById('cadastro-form').addEventListener('submit', (event) => {
     return true
   }
 
-  function cadastrarEmbarcacao(dados) {
+  function cadastrarPalestras(dados) {
     // Recebendo dados
-    const dadosDoLocalStorage = JSON.parse(localStorage.getItem('dadosEmbarcacoes'))
+    const dadosDoLocalStorage = JSON.parse(localStorage.getItem('dadosPalestras'));
 
     // Colocando id
-    const id = dadosDoLocalStorage.idGlobal
+    const id = dadosDoLocalStorage.idGlobal;
     dadosDoLocalStorage.idGlobal++ // Incrementando o idGlobal
     dados.id = id
 
-    // Adicionando embarcacao nos dados
-    dadosDoLocalStorage.embarcacoes.push(dados)
+    // Adicionando palestra nos dados
+    dadosDoLocalStorage.palestras.push(dados)
 
     // Atualizando o localStorage
-    localStorage.setItem('dadosEmbarcacoes', JSON.stringify(dadosDoLocalStorage))
+    localStorage.setItem('dadosPalestras', JSON.stringify(dadosDoLocalStorage))
 
     // Limpando o formulário
     document.getElementById('cadastro-form').reset()
@@ -106,7 +106,7 @@ document.getElementById('cadastro-form').addEventListener('submit', (event) => {
   formData.forEach((value, key) => {
     if (!teveErro) {
       switch (key) {
-        case 'nome_embarcacao': {
+        case 'nome_palestra': {
           if (value.length < 5) {
             mostrarErro('O nome precisa conter pelo menos 5 caracteres')
             teveErro = true
@@ -117,9 +117,9 @@ document.getElementById('cadastro-form').addEventListener('submit', (event) => {
 
           break
         }
-        case 'saida_embarcacao': {
+        case 'saida_palestra': {
           if (value.length < 2) {
-            mostrarErro('A saída da embarcação precisa conter pelo menos 2 caracteres')
+            mostrarErro('A saída da palestra precisa conter pelo menos 2 caracteres')
             teveErro = true
             return
           }
@@ -128,18 +128,8 @@ document.getElementById('cadastro-form').addEventListener('submit', (event) => {
 
           break
         }
-        case 'destino_embarcacao': {
-          if (value.length < 2) {
-            mostrarErro('O destino da embarcação precisa conter pelo menos 2 caracteres')
-            teveErro = true
-            return
-          }
-
-          tirarErro()
-
-          break
-        }
-        case 'horario_saida_embarcacao': {
+        
+        case 'horario_saida_palestra': {
           const validado = validarHorario(value)
 
           if (!validado) {
@@ -150,7 +140,7 @@ document.getElementById('cadastro-form').addEventListener('submit', (event) => {
 
           break
         }
-        case 'horario_destino_embarcacao': {
+        case 'horario_destino_palestra': {
           const validado = validarHorario(value)
 
           if (!validado) {
@@ -161,13 +151,13 @@ document.getElementById('cadastro-form').addEventListener('submit', (event) => {
 
           break
         }
-        case 'data_saida_embarcacao': {
+        case 'data_saida_palestra': {
           break
         }
-        case 'data_chegada_embarcacao': {
+        case 'data_chegada_palestra': {
           break
         }
-        case 'info_embarcacao': {
+        case 'info_palestra': {
           break
         }
         default: {
@@ -181,8 +171,8 @@ document.getElementById('cadastro-form').addEventListener('submit', (event) => {
   })
 
   // Validando intervalo de datas
-  const dataSaida = new Date(formParametros['data_saida_embarcacao'])
-  const dataChegada = new Date(formParametros['data_chegada_embarcacao'])
+  const dataSaida = new Date(formParametros['data_saida_palestra'])
+  const dataChegada = new Date(formParametros['data_chegada_palestra'])
 
   // Validando a data
   if (dataSaida > dataChegada) {
@@ -209,10 +199,10 @@ document.getElementById('cadastro-form').addEventListener('submit', (event) => {
 
   tirarErro()
 
-  // Cadastrando embarcacao
-  cadastrarEmbarcacao(formParametros)
+  // Cadastrando palestra
+  cadastrarPalestras(formParametros)
 
-  alert('Embarcacao cadastrada!')
+  alert("Palestra cadastrada!")
 })
 
 // Função para mudar a tela no clique do botão
@@ -283,26 +273,26 @@ function mudarTela(tela) {
   }
 }
 
-function excluirEmbarcacao(id) {
+function excluirPalestra(id) {
   // Recebendo os dados
-  const dadosDoLocalStorage = JSON.parse(localStorage.getItem('dadosEmbarcacoes'))
+  const dadosDoLocalStorage = JSON.parse(localStorage.getItem('dadosPalestras'))
 
-  const novosDados = dadosDoLocalStorage.embarcacoes.filter((emb) => {
+  const novosDados = dadosDoLocalStorage.palestras.filter((emb) => {
     if (emb.id !== id) {
       return emb
     }
   })
 
-  dadosDoLocalStorage.embarcacoes = novosDados
+  dadosDoLocalStorage.palestras = novosDados
 
-  localStorage.setItem('dadosEmbarcacoes', JSON.stringify(dadosDoLocalStorage))
+  localStorage.setItem('dadosPalestras', JSON.stringify(dadosDoLocalStorage))
   mostrarListagem()
 }
 
 function mostrarListagem() {
   // Recebendo os dados
-  const dadosDoLocalStorage = JSON.parse(localStorage.getItem('dadosEmbarcacoes'))
-  const embarcacoes = dadosDoLocalStorage.embarcacoes
+  const dadosDoLocalStorage = JSON.parse(localStorage.getItem('dadosPalestras'))
+  const palestras = dadosDoLocalStorage.palestras
 
   // Limpando a listagem
   const lista = document.getElementById('listagem')
@@ -316,17 +306,15 @@ function mostrarListagem() {
 
   // Caso o input de pesquisa esteja vazio
   if (inputPesquisa.value === '') {
-    for (let i = 0; i < embarcacoes.length; i++) {
+    for (let i = 0; i < palestras.length; i++) {
       listaHTML += `
-      <div class="embarcacao-card">
-      <p>Nome: ${embarcacoes[i].nome_embarcacao}</p>
-      <p>Data de Saída: ${embarcacoes[i].data_saida_embarcacao}</p>
-      <p>Data de Chegada: ${embarcacoes[i].data_chegada_embarcacao}</p>
-      <p>Local de Saída: ${embarcacoes[i].saida_embarcacao}</p>
-      <p>Local de Destino: ${embarcacoes[i].destino_embarcacao}</p>
+      <div class="palestra-card">
+      <p>Nome da Palestra: ${palestras[i].nome_palestra}</p>
+      <p>Data da Palestra: ${palestras[i].data_saida_palestra}</p>
+      <p>Horário da Palestra: ${palestras[i].horario}</p>
       <p>Informações Adicionais:</p>
-      <p>${embarcacoes[i].info_embarcacao === '' ? '(vazio)' : embarcacoes[i].info_embarcacao}</p>
-      <button onclick="excluirEmbarcacao(${embarcacoes[i].id})">Excluir</button>
+      <p>${palestras[i].info_palestra === '' ? '(vazio)' : palestras[i].info_palestra}</p>
+      <button onclick="excluirpalestra(${palestras[i].id})">Excluir</button>
       </div>
       `
     }
@@ -334,59 +322,51 @@ function mostrarListagem() {
   }
   // Caso o input de pesquisa tenha conteúdo
   else {
-    for (let i = 0; i < embarcacoes.length; i++) {
-      if (filtroDePesquisa === 'nome' && embarcacoes[i].nome_embarcacao.includes(inputPesquisa.value)) {
+    for (let i = 0; i < palestras.length; i++) {
+      if (filtroDePesquisa === 'nome' && palestras[i].nome_palestra.includes(inputPesquisa.value)) {
         listaHTML += `
-        <div class="embarcacao-card">
-        <p>Nome: ${embarcacoes[i].nome_embarcacao}</p>
-        <p>Data de Saída: ${embarcacoes[i].data_saida_embarcacao}</p>
-        <p>Data de Chegada: ${embarcacoes[i].data_chegada_embarcacao}</p>
-        <p>Local de Saída: ${embarcacoes[i].saida_embarcacao}</p>
-        <p>Local de Destino: ${embarcacoes[i].destino_embarcacao}</p>
-        <p>Informações Adicionais:</p>
-        <p>${embarcacoes[i].info_embarcacao === '' ? '(vazio)' : embarcacoes[i].info_embarcacao}</p>
-        <button onclick="excluirEmbarcacao(${embarcacoes[i].id})">Excluir</button>
-        </div>
-        `
-      } else if (filtroDePesquisa === 'info' && embarcacoes[i].info_embarcacao.includes(inputPesquisa.value)) {
+       <div class="palestra-card">
+      <p>Nome da Palestra: ${palestras[i].nome_palestra}</p>
+      <p>Data da Palestra: ${palestras[i].data_saida_palestra}</p>
+      <p>Horário da Palestra: ${palestras[i].horario}</p>
+      <p>Informações Adicionais:</p>
+      <p>${palestras[i].info_palestra === '' ? '(vazio)' : palestras[i].info_palestra}</p>
+      <button onclick="excluirpalestra(${palestras[i].id})">Excluir</button>
+      </div>
+      `
+      } else if (filtroDePesquisa === 'info' && palestras[i].info_palestra.includes(inputPesquisa.value)) {
         listaHTML += `
-        <div class="embarcacao-card">
-        <p>Nome: ${embarcacoes[i].nome_embarcacao}</p>
-        <p>Data de Saída: ${embarcacoes[i].data_saida_embarcacao}</p>
-        <p>Data de Chegada: ${embarcacoes[i].data_chegada_embarcacao}</p>
-        <p>Local de Saída: ${embarcacoes[i].saida_embarcacao}</p>
-        <p>Local de Destino: ${embarcacoes[i].destino_embarcacao}</p>
-        <p>Informações Adicionais:</p>
-        <p>${embarcacoes[i].info_embarcacao === '' ? '(vazio)' : embarcacoes[i].info_embarcacao}</p>
-        <button onclick="excluirEmbarcacao(${embarcacoes[i].id})">Excluir</button>
-        </div>
-        `
-      } else if (filtroDePesquisa === 'saida' && embarcacoes[i].saida_embarcacao.includes(inputPesquisa.value)) {
+        <div class="palestra-card">
+      <p>Nome da Palestra: ${palestras[i].nome_palestra}</p>
+      <p>Data da Palestra: ${palestras[i].data_saida_palestra}</p>
+      <p>Horário da Palestra: ${palestras[i].horario}</p>
+      <p>Informações Adicionais:</p>
+      <p>${palestras[i].info_palestra === '' ? '(vazio)' : palestras[i].info_palestra}</p>
+      <button onclick="excluirpalestra(${palestras[i].id})">Excluir</button>
+      </div>
+      `
+      } else if (filtroDePesquisa === 'saida' && palestras[i].saida_palestra.includes(inputPesquisa.value)) {
         listaHTML += `
-        <div class="embarcacao-card">
-        <p>Nome: ${embarcacoes[i].nome_embarcacao}</p>
-        <p>Data de Saída: ${embarcacoes[i].data_saida_embarcacao}</p>
-        <p>Data de Chegada: ${embarcacoes[i].data_chegada_embarcacao}</p>
-        <p>Local de Saída: ${embarcacoes[i].saida_embarcacao}</p>
-        <p>Local de Destino: ${embarcacoes[i].destino_embarcacao}</p>
-        <p>Informações Adicionais:</p>
-        <p>${embarcacoes[i].info_embarcacao === '' ? '(vazio)' : embarcacoes[i].info_embarcacao}</p>
-        <button onclick="excluirEmbarcacao(${embarcacoes[i].id})">Excluir</button>
-        </div>
-        `
-      } else if (filtroDePesquisa === 'destino' && embarcacoes[i].destino_embarcacao.includes(inputPesquisa.value)) {
+        <div class="palestra-card">
+      <p>Nome da Palestra: ${palestras[i].nome_palestra}</p>
+      <p>Data da Palestra: ${palestras[i].data_saida_palestra}</p>
+      <p>Horário da Palestra: ${palestras[i].horario}</p>
+      <p>Informações Adicionais:</p>
+      <p>${palestras[i].info_palestra === '' ? '(vazio)' : palestras[i].info_palestra}</p>
+      <button onclick="excluirpalestra(${palestras[i].id})">Excluir</button>
+      </div>
+      `
+      } else if (filtroDePesquisa === 'destino' && palestras[i].destino_palestra.includes(inputPesquisa.value)) {
         listaHTML += `
-        <div class="embarcacao-card">
-        <p>Nome: ${embarcacoes[i].nome_embarcacao}</p>
-        <p>Data de Saída: ${embarcacoes[i].data_saida_embarcacao}</p>
-        <p>Data de Chegada: ${embarcacoes[i].data_chegada_embarcacao}</p>
-        <p>Local de Saída: ${embarcacoes[i].saida_embarcacao}</p>
-        <p>Local de Destino: ${embarcacoes[i].destino_embarcacao}</p>
-        <p>Informações Adicionais:</p>
-        <p>${embarcacoes[i].info_embarcacao === '' ? '(vazio)' : embarcacoes[i].info_embarcacao}</p>
-        <button onclick="excluirEmbarcacao(${embarcacoes[i].id})">Excluir</button>
-        </div>
-        `
+       <div class="palestra-card">
+      <p>Nome da Palestra: ${palestras[i].nome_palestra}</p>
+      <p>Data da Palestra: ${palestras[i].data_saida_palestra}</p>
+      <p>Horário da Palestra: ${palestras[i].horario}</p>
+      <p>Informações Adicionais:</p>
+      <p>${palestras[i].info_palestra === '' ? '(vazio)' : palestras[i].info_palestra}</p>
+      <button onclick="excluirpalestra(${palestras[i].id})">Excluir</button>
+      </div>
+      `
       }
     }
   }
