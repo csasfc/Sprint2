@@ -1,0 +1,165 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+  }
+  
+  body {
+    display: flex;
+    gap: 3rem;
+    min-height: 100dvh;
+  
+    background-color: rgb(31, 31, 31);
+    color: #ddd;
+  }
+  
+  /* Utilitários */
+  .flex {
+    display: flex !important;
+  }
+  
+  .block {
+    display: block !important;
+  }
+  
+  /* Barra lateral */
+  aside {
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    background-color: rgb(54, 54, 54);
+  }
+  
+  .title {
+    font-size: 1.3rem;
+    align-self: center;
+    padding-block: .5rem;
+    padding-bottom: 1rem;
+    color: #ddd;
+  }
+  
+  .side-button {
+    border: 1px solid transparent;
+    padding-block: 1rem;
+    font-size: 1.3rem;
+    background: rgba(0, 0, 0, .2);
+    color: rgb(94, 94, 139);
+    
+    transition: .3s ease;
+  } .side-button:hover {
+    cursor: pointer;
+    border: 1px solid rgba(56, 56, 197, 0.363);
+    background-color: rgba(0, 0, 0, .4);
+  }
+  
+  .side-button-active {
+    border: 1px solid rgb(144, 144, 209);
+    color: rgb(144, 144, 209);
+    background: transparent;
+  }
+  
+  /* Padrão Tela de Lista e de Cadastro */
+  #lista,
+  #cadastro {
+    display: none;
+  }
+  
+  /* Tela de Cadastro */
+  #cadastro {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  #cadastro-form {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  
+    background-color: rgba(256, 256, 256, .1);
+    padding: 1.5rem;
+    border-radius: .75rem;
+  }
+  
+  .cadastro-form-field {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-input {
+    border-radius: .75rem;
+    border: none;
+    font-size: 1rem;
+    padding: .3rem;
+  }
+  
+  #form-error {
+    display: none;
+    color: red;
+    font-size: 1rem;
+    max-width: 300px;
+    padding-block: .5rem;
+  }
+  
+  .form-error-active {
+    display: block !important;
+  }
+  
+  .botao-cadastrar {
+    padding: .3rem;
+    font-size: 1.2rem;
+  }
+  
+  /* Tela de Lista */
+  #input-pesquisa {
+    font-size: 1.1rem;
+    padding: .5rem;
+    margin-top: 1rem;
+  }
+  
+  .botao-pesquisar {
+    font-size: 1.1rem;
+    padding: .1rem;
+  }
+  
+  .filtro-text {
+    padding-top: 1rem;
+  }
+  
+  .button-filtro {
+    background-color: rgba(256, 256, 256, .5);
+    padding: .2rem;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .button-filtro-selected {
+    background-color: rgba(256, 256, 256, .9);
+  }
+  
+  #listagem {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  
+    padding: 1rem;
+  }
+  
+  .palestra-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: rgba(256, 256, 256, .1);
+  }
+  .palestra-card button {
+    cursor: pointer;
+    align-self: end;
+    font-size: 1rem;
+    padding: .3rem;
+  }
